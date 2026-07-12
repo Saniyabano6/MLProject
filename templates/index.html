@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Student Exam Performance Indicator</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --board:#1E3A2B;
+    --board-dark:#152C20;
+    --chalk:#F5F1E6;
+    --chalk-yellow:#F2C14E;
+    --stamp-red:#C1443C;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:
+      radial-gradient(circle at 20% 20%, rgba(255,255,255,0.05), transparent 40%),
+      radial-gradient(circle at 80% 70%, rgba(255,255,255,0.04), transparent 45%),
+      var(--board);
+    font-family:'Inter', sans-serif;
+    color:var(--chalk);
+    padding:24px;
+    text-align:center;
+  }
+  .eyebrow{
+    font-size:13px;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    color:var(--chalk-yellow);
+    font-weight:600;
+    margin-bottom:18px;
+  }
+  h1{
+    font-family:'Kalam', cursive;
+    font-weight:700;
+    font-size:clamp(2.4rem, 6vw, 4rem);
+    line-height:1.1;
+    margin:0 0 18px;
+    text-shadow:0 2px 0 rgba(0,0,0,0.15);
+  }
+  p.sub{
+    font-size:17px;
+    color:rgba(245,241,230,0.75);
+    max-width:420px;
+    margin:0 auto 36px;
+    line-height:1.5;
+  }
+  .doodle{
+    width:96px;
+    height:96px;
+    margin:0 auto 8px;
+    opacity:.9;
+  }
+  .doodle path, .doodle line{
+    stroke:var(--chalk-yellow);
+    stroke-width:2.5;
+    stroke-linecap:round;
+    fill:none;
+  }
+  a.cta{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    background:var(--chalk-yellow);
+    color:var(--board-dark);
+    font-weight:700;
+    font-size:16px;
+    text-decoration:none;
+    padding:14px 28px;
+    border-radius:6px;
+    border:2px dashed rgba(30,58,43,0.35);
+    transition:transform .18s ease, box-shadow .18s ease;
+  }
+  a.cta:hover{
+    transform:translateY(-2px) rotate(-1deg);
+    box-shadow:0 8px 18px rgba(0,0,0,0.25);
+  }
+  a.cta:focus-visible{
+    outline:3px solid var(--chalk);
+    outline-offset:3px;
+  }
+  @media (prefers-reduced-motion: reduce){
+    a.cta{transition:none;}
+    a.cta:hover{transform:none;}
+  }
+</style>
+</head>
+<body>
+  <div>
+    <svg class="doodle" viewBox="0 0 100 100" aria-hidden="true">
+      <path d="M50 30 C35 20, 20 35, 22 52 C24 70, 38 82, 50 82 C62 82, 76 70, 78 52 C80 35, 65 20, 50 30 Z"/>
+      <path d="M50 30 C50 22, 55 16, 62 15"/>
+      <path d="M55 20 C60 16, 66 18, 66 24 C66 29, 60 30, 55 26 Z"/>
+    </svg>
+    <div class="eyebrow">Room 204 · Data Science</div>
+    <h1>Welcome to<br>the Classroom</h1>
+    <p class="sub">Answer a few quick questions about a student and we'll predict their Math score.</p>
+    <a class="cta" href="/predictdata">Take the Quiz →</a>
+  </div>
+</body>
+</html>

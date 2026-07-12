@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Student Exam Performance Indicator</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&family=Inter:wght@400;500;600;700&family=Space+Mono:wght@700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --board:#1E3A2B;
+    --board-dark:#152C20;
+    --chalk:#F5F1E6;
+    --chalk-yellow:#F2C14E;
+    --stamp-red:#C1443C;
+    --rule:rgba(30,58,43,0.10);
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    min-height:100vh;
+    background:
+      radial-gradient(circle at 15% 10%, rgba(255,255,255,0.05), transparent 40%),
+      radial-gradient(circle at 85% 90%, rgba(255,255,255,0.04), transparent 45%),
+      var(--board);
+    font-family:'Inter', sans-serif;
+    color:var(--chalk);
+    padding:48px 20px;
+    display:flex;
+    justify-content:center;
+  }
+  .wrap{ width:100%; max-width:640px; }
+  .eyebrow{
+    font-size:13px;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    color:var(--chalk-yellow);
+    font-weight:600;
+    margin-bottom:10px;
+    text-align:center;
+  }
+  h1{
+    font-family:'Kalam', cursive;
+    font-weight:700;
+    font-size:clamp(1.9rem, 5vw, 2.6rem);
+    text-align:center;
+    margin:0 0 8px;
+  }
+  p.sub{
+    text-align:center;
+    color:rgba(245,241,230,0.75);
+    font-size:15px;
+    margin:0 0 32px;
+  }
+  .sheet{
+    background:var(--chalk);
+    color:var(--board-dark);
+    border-radius:8px;
+    padding:32px 32px 28px;
+    box-shadow:0 20px 40px rgba(0,0,0,0.3);
+    position:relative;
+    background-image:repeating-linear-gradient(
+      to bottom,
+      transparent,
+      transparent 43px,
+      var(--rule) 44px
+    );
+  }
+  .sheet::before{
+    content:"";
+    position:absolute;
+    left:56px;
+    top:0;
+    bottom:0;
+    width:2px;
+    background:rgba(193,68,60,0.25);
+  }
+  .grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:20px 24px;
+    margin-left:20px;
+  }
+  .field{ grid-column:span 1; }
+  .field.full{ grid-column:1 / -1; }
+  label{
+    display:block;
+    font-size:12px;
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:.08em;
+    color:#4B6355;
+    margin-bottom:6px;
+  }
+  select, input[type="number"]{
+    width:100%;
+    border:none;
+    border-bottom:2px solid #C9C2AE;
+    background:transparent;
+    padding:6px 2px;
+    font-size:15px;
+    font-family:'Inter', sans-serif;
+    color:var(--board-dark);
+    appearance:none;
+    -webkit-appearance:none;
+    border-radius:0;
+    transition:border-color .15s ease;
+  }
+  select{
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%234B6355' stroke-width='2' fill='none' fill-rule='evenodd'/%3E%3C/svg%3E");
+    background-repeat:no-repeat;
+    background-position:right 2px center;
+    padding-right:18px;
+  }
+  select:focus, input[type="number"]:focus{
+    outline:none;
+    border-bottom-color:var(--stamp-red);
+  }
+  select:focus-visible, input:focus-visible{
+    outline:2px solid var(--chalk-yellow);
+    outline-offset:3px;
+  }
+  button{
+    margin-top:32px;
+    margin-left:20px;
+    width:calc(100% - 20px);
+    padding:14px;
+    background:var(--stamp-red);
+    color:var(--chalk);
+    font-weight:700;
+    font-size:15px;
+    letter-spacing:.04em;
+    text-transform:uppercase;
+    border:none;
+    border-radius:6px;
+    cursor:pointer;
+    transition:transform .15s ease, box-shadow .15s ease;
+  }
+  button:hover{
+    transform:translateY(-2px);
+    box-shadow:0 10px 20px rgba(193,68,60,0.35);
+  }
+  button:focus-visible{
+    outline:3px solid var(--chalk-yellow);
+    outline-offset:3px;
+  }
+  .result{
+    margin-top:36px;
+    display:flex;
+    justify-content:center;
+  }
+  .stamp{
+    border:4px double var(--stamp-red);
+    color:var(--stamp-red);
+    border-radius:50%;
+    width:150px;
+    height:150px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    transform:rotate(-7deg);
+    font-family:'Space Mono', monospace;
+    mix-blend-mode:multiply;
+  }
+  .stamp span.label{
+    font-size:10px;
+    letter-spacing:.1em;
+    text-transform:uppercase;
+    font-family:'Inter', sans-serif;
+    font-weight:700;
+    margin-bottom:4px;
+  }
+  .stamp span.score{
+    font-size:34px;
+    font-weight:700;
+    line-height:1;
+  }
+  @media (max-width:520px){
+    .grid{ grid-template-columns:1fr; margin-left:0; }
+    .sheet::before{ display:none; }
+    button{ margin-left:0; width:100%; }
+  }
+  @media (prefers-reduced-motion: reduce){
+    button{ transition:none; }
+    button:hover{ transform:none; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="eyebrow">Pop Quiz</div>
+  <h1>Student Exam Performance Indicator</h1>
+  <p class="sub">Fill in the details below — we'll estimate the Math score.</p>
+
+  <div class="sheet">
+    <form action="{{url_for('predict_datapoint')}}" method="post">
+      <div class="grid">
+        <div class="field">
+          <label for="gender">Gender</label>
+          <select id="gender" name="gender" required>
+            <option value="">Select your gender</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="ethnicity">Race or Ethnicity</label>
+          <select id="ethnicity" name="ethnicity" required>
+            <option value="">Select ethnicity</option>
+            <option value="group A">Group A</option>
+            <option value="group B">Group B</option>
+            <option value="group C">Group C</option>
+            <option value="group D">Group D</option>
+            <option value="group E">Group E</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="parental_level_of_education">Parental Education</label>
+          <select id="parental_level_of_education" name="parental_level_of_education" required>
+            <option value="">Select level</option>
+            <option value="associate's degree">Associate's degree</option>
+            <option value="bachelor's degree">Bachelor's degree</option>
+            <option value="high school">High school</option>
+            <option value="master's degree">Master's degree</option>
+            <option value="some college">Some college</option>
+            <option value="some high school">Some high school</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="lunch">Lunch Type</label>
+          <select id="lunch" name="lunch" required>
+            <option value="">Select lunch type</option>
+            <option value="free/reduced">Free/reduced</option>
+            <option value="standard">Standard</option>
+          </select>
+        </div>
+
+        <div class="field full">
+          <label for="test_preparation_course">Test Preparation Course</label>
+          <select id="test_preparation_course" name="test_preparation_course" required>
+            <option value="">Select status</option>
+            <option value="none">None</option>
+            <option value="completed">Completed</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="writing_score">Writing Score</label>
+          <input type="number" id="writing_score" name="writing_score" placeholder="Out of 100" min="0" max="100" required>
+        </div>
+
+        <div class="field">
+          <label for="reading_score">Reading Score</label>
+          <input type="number" id="reading_score" name="reading_score" placeholder="Out of 100" min="0" max="100" required>
+        </div>
+      </div>
+
+      <button type="submit">Grade My Quiz</button>
+    </form>
+
+    {% if results %}
+    <div class="result">
+      <div class="stamp">
+        <span class="label">Predicted</span>
+        <span class="score">{{ results }}</span>
+      </div>
+    </div>
+    {% endif %}
+  </div>
+</div>
+</body>
+</html>
